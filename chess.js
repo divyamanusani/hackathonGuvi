@@ -8,14 +8,14 @@ var spanBlack = [];
 var spanWhite = [];
 var spanBlackPawns = [];
 var spanWhitePawns = [];
-var resetx, resety,colorreset;
+var resetx, resety, colorreset;
 
 var tr = [];
 for (var i = 0; i < 8; i++) {
     tr[i] = document.createElement('tr');
     for (var j = 0; j < 8; j++) {
         tr[i][j] = document.createElement('td');
-        // tr[i][j].setAttribute('onclick', `moveTo(${i},${j})`);
+        tr[i][j].setAttribute('onclick', `moveTo(${i},${j})`);
         if (i % 2 === j % 2) {
             tr[i][j].className = 'white';
         }
@@ -54,31 +54,56 @@ for (var i = 0; i < 8; i++) {
 document.body.append(table);
 
 function onClickBlackPawn(x, y) {
-  repaint();
+    repaint();
 
     tr[x][y].setAttribute('style', 'background-color:tomato;');
     tr[x + 1][y].setAttribute('style', 'background-color:yellow;');
     tr[x + 2][y].setAttribute('style', 'background-color:yellow;');
-   
+
 }
 
 
 function onClickWhitePawn(x, y) {
     repaint();
-
     tr[x][y].setAttribute('style', 'background-color:tomato;');
     tr[x - 1][y].setAttribute('style', 'background-color:yellow;');
     tr[x - 2][y].setAttribute('style', 'background-color:yellow;');
- 
 }
 
-function repaint(){
-    for(var i=0;i<8;i++){
-        for(var j=0;j<8;j++){
+function repaint() {
+    for (var i = 0; i < 8; i++) {
+        for (var j = 0; j < 8; j++) {
             tr[i][j].removeAttribute('style');
         }
     }
 }
+
+function moveTo(toX, toY) {
+    console.log('to=',toX,toY);
+    if (tr[toX][toY].hasAttribute('style')) {
+        if (tr[toX][toY].getAttribute('style') === 'background-color:yellow;') {
+            var fromXY = getFromXFromYValues();
+            var fromX = fromXY[0];
+            var fromY = fromXY[1];
+            var childnode=tr[fromX][fromY].removeChild(tr[fromX][fromY].childNodes[0]);
+            tr[toX][toY].appendChild(childnode);
+        }
+    }
+    return;
+}
+
+function getFromXFromYValues() {
+    for (var i = 0; i < 8; i++) {
+        for (var j = 0; j < 8; j++) {
+            if (tr[i][j].getAttribute('style') === 'background-color:tomato;') {
+
+                return [i, j];
+            }
+        }
+    }
+}
+
+
 
 
 
