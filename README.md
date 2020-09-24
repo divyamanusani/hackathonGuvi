@@ -1,2 +1,2 @@
 # hackathonGuvi
-Guvi monthly hackathon
+Guvi hackathon on Chess game

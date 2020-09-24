@@ -1,0 +1,31 @@
+body{
+    margin:auto;
+    width:70%;
+
+}
+
+.black{
+    background-color: grey;
+}
+
+.white{
+    background-color: white;
+}
+
+table,tr{
+    width:70%;
+    height:80%;
+    border-collapse:collapse;
+    margin:50px 50px;
+}
+
+tr,td{
+    height:10%;
+   
+}
+
+span{
+    font-size:60px;
+    margin:10px;
+    cursor:pointer;
+}
