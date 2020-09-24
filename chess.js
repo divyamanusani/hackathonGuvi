@@ -8,12 +8,14 @@ var spanBlack = [];
 var spanWhite = [];
 var spanBlackPawns = [];
 var spanWhitePawns = [];
+var resetx, resety,colorreset;
 
 var tr = [];
 for (var i = 0; i < 8; i++) {
     tr[i] = document.createElement('tr');
     for (var j = 0; j < 8; j++) {
         tr[i][j] = document.createElement('td');
+        // tr[i][j].setAttribute('onclick', `moveTo(${i},${j})`);
         if (i % 2 === j % 2) {
             tr[i][j].className = 'white';
         }
@@ -30,9 +32,7 @@ for (var i = 0; i < 8; i++) {
         if (i === 1) {
             spanBlackPawns[j] = document.createElement('span');
             spanBlackPawns[j].innerHTML = blackpawn;
-            spanBlackPawns[j].setAttribute('onmouseover', `setStylePositionBlackPawns(${i},${j})`);
-            spanBlackPawns[j].setAttribute('onmouseout', `resetStylePositionBlackPawns(${i},${j})`);
-
+            spanBlackPawns[j].setAttribute('onclick', `onClickBlackPawn(${i},${j})`);
             tr[i][j].append(spanBlackPawns[j]);
         }
         if (i === 7) {
@@ -44,9 +44,7 @@ for (var i = 0; i < 8; i++) {
         if (i === 6) {
             spanWhitePawns[j] = document.createElement('span');
             spanWhitePawns[j].innerHTML = whitepawn;
-            spanWhitePawns[j].setAttribute('onmouseover', `setStylePositionWhitePawns(${i},${j})`);
-            spanWhitePawns[j].setAttribute('onmouseout', `resetStylePositionWhitePawns(${i},${j})`);
-
+            spanWhitePawns[j].setAttribute('onclick', `onClickWhitePawn(${i},${j})`);
             tr[i][j].append(spanWhitePawns[j]);
         }
         tr[i].append(tr[i][j]);
@@ -55,31 +53,35 @@ for (var i = 0; i < 8; i++) {
 }
 document.body.append(table);
 
+function onClickBlackPawn(x, y) {
+  repaint();
 
-function setStylePositionBlackPawns(x, y) {
     tr[x][y].setAttribute('style', 'background-color:tomato;');
     tr[x + 1][y].setAttribute('style', 'background-color:yellow;');
     tr[x + 2][y].setAttribute('style', 'background-color:yellow;');
+   
 }
 
-function resetStylePositionBlackPawns(x, y) {
-    tr[x][y].removeAttribute("style");
-    tr[x + 1][y].removeAttribute("style");
-    tr[x + 2][y].removeAttribute("style");
-}
 
-function setStylePositionWhitePawns(x,y) {
-  
+function onClickWhitePawn(x, y) {
+    repaint();
+
     tr[x][y].setAttribute('style', 'background-color:tomato;');
     tr[x - 1][y].setAttribute('style', 'background-color:yellow;');
     tr[x - 2][y].setAttribute('style', 'background-color:yellow;');
+ 
 }
 
-function resetStylePositionWhitePawns(x, y) {
-    tr[x][y].removeAttribute("style");
-    tr[x - 1][y].removeAttribute("style");
-    tr[x - 2][y].removeAttribute("style");
+function repaint(){
+    for(var i=0;i<8;i++){
+        for(var j=0;j<8;j++){
+            tr[i][j].removeAttribute('style');
+        }
+    }
 }
+
+
+
 
 
 
