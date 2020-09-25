@@ -30,3 +30,20 @@ span{
     margin-right: 25%;
     cursor:pointer;
 }
+a{
+    font-size: 40px;
+    font-weight: bold;
+    font-family: 'Aclonica';
+    padding-top: 20px;
+    animation: example 10s infinite;
+  cursor: pointer;  
+  animation-play-state: running;
+  text-decoration: none;
+}
+
+@keyframes example {
+  0%   {color: red;}
+  25%  {color: tomato;}
+  50%  {color: blue;}
+  100% {color: peru;}
+}
