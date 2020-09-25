@@ -26,24 +26,28 @@ for (var i = 0; i < 8; i++) {
         if (i === 0) {
             spanBlack[j] = document.createElement('span');
             spanBlack[j].innerHTML = chesscoinsblack[j];
+            spanBlack[j].setAttribute('class', 'blackcoin');
             tr[i][j].append(spanBlack[j]);
         }
 
         if (i === 1) {
             spanBlackPawns[j] = document.createElement('span');
             spanBlackPawns[j].innerHTML = blackpawn;
+            spanBlackPawns[j].setAttribute('class', 'blackpawn');
             spanBlackPawns[j].setAttribute('onclick', `onClickBlackPawn(${i},${j})`);
             tr[i][j].append(spanBlackPawns[j]);
         }
         if (i === 7) {
             spanWhite[j] = document.createElement('span');
-            spanWhite[j].innerHTML = chesscoinsblack[j];
+            spanWhite[j].innerHTML = chesscoinswhite[j];
+            spanWhite[j].setAttribute('class', 'whitecoin');
             tr[i][j].append(spanWhite[j]);
 
         }
         if (i === 6) {
             spanWhitePawns[j] = document.createElement('span');
             spanWhitePawns[j].innerHTML = whitepawn;
+            spanWhitePawns[j].setAttribute('class', 'whitepawn');
             spanWhitePawns[j].setAttribute('onclick', `onClickWhitePawn(${i},${j})`);
             tr[i][j].append(spanWhitePawns[j]);
         }
@@ -54,20 +58,46 @@ for (var i = 0; i < 8; i++) {
 document.body.append(table);
 
 function onClickBlackPawn(x, y) {
+    console.log('blackxy=', x, y);
     repaint();
 
     tr[x][y].setAttribute('style', 'background-color:tomato;');
-    tr[x + 1][y].setAttribute('style', 'background-color:yellow;');
-    tr[x + 2][y].setAttribute('style', 'background-color:yellow;');
+    if (!tr[x + 1][y].hasChildNodes()) {
+        tr[x + 1][y].setAttribute('style', 'background-color:yellow;');
+    }
 
+    if (x === 1) {
+        tr[x + 2][y].setAttribute('style', 'background-color:yellow;');
+    }
+
+    if (tr[x + 1][y - 1].hasChildNodes()) {
+        tr[x + 1][y - 1].setAttribute('style', 'background-color:yellow;');
+    }
+
+    if (tr[x + 1][y + 1].hasChildNodes()) {
+        tr[x + 1][y + 1].setAttribute('style', 'background-color:yellow;');
+    }
 }
 
 
 function onClickWhitePawn(x, y) {
+    console.log('whitexy=', x, y);
     repaint();
     tr[x][y].setAttribute('style', 'background-color:tomato;');
+    if (!tr[x - 1][y].hasChildNodes()) {
     tr[x - 1][y].setAttribute('style', 'background-color:yellow;');
-    tr[x - 2][y].setAttribute('style', 'background-color:yellow;');
+    }
+    if (x === 6) {
+        tr[x - 2][y].setAttribute('style', 'background-color:yellow;');
+    }
+
+    if (tr[x - 1][y - 1].hasChildNodes()) {
+        tr[x - 1][y - 1].setAttribute('style', 'background-color:yellow;');
+    }
+
+    if (tr[x - 1][y + 1].hasChildNodes()) {
+        tr[x - 1][y + 1].setAttribute('style', 'background-color:yellow;');
+    }
 }
 
 function repaint() {
@@ -79,14 +109,31 @@ function repaint() {
 }
 
 function moveTo(toX, toY) {
-    console.log('to=',toX,toY);
+    //console.log('to=', toX, toY);
     if (tr[toX][toY].hasAttribute('style')) {
         if (tr[toX][toY].getAttribute('style') === 'background-color:yellow;') {
             var fromXY = getFromXFromYValues();
             var fromX = fromXY[0];
             var fromY = fromXY[1];
-            var childnode=tr[fromX][fromY].removeChild(tr[fromX][fromY].childNodes[0]);
-            tr[toX][toY].appendChild(childnode);
+            //console.log('from=', fromX, fromY)
+            var child = tr[fromX][fromY].removeChild(tr[fromX][fromY].childNodes[0]);
+            var span = document.createElement('span');
+            console.log('classname=', child.className);
+            // console.log(child);
+            if (child.className === 'blackpawn') {
+                span.setAttribute('onclick', `onClickBlackPawn(${toX},${toY})`);
+            }
+            else if (child.className === 'whitepawn') {
+                span.setAttribute('onclick', `onClickWhitePawn(${toX},${toY})`);
+            }
+            span.innerHTML = child.innerHTML;
+            span.className = child.className;
+            if (tr[toX][toY].hasChildNodes()) {
+                tr[toX][toY].removeChild(tr[toX][toY].childNodes[0]);
+            }
+            console.log(span);
+            tr[toX][toY].appendChild(span);
+            repaint();
         }
     }
     return;
